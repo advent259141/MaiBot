@@ -234,13 +234,13 @@ async def _send_message(message: MessageSending, show_log=True) -> bool:
 
         try:
             send_result = await get_global_api().send_message(message)
-            # if send_result:
-            if show_log:
-                logger.info(f"已将消息  '{message_preview}'  发往平台'{message.message_info.platform}'")
-            return True
+            if send_result:
+                if show_log:
+                    logger.info(f"已将消息  '{message_preview}'  发往平台'{message.message_info.platform}'")
+                return True
 
             # Legacy API 返回 False (发送失败但未报错)，尝试 Fallback
-            # return await send_with_new_api()
+            return await send_with_new_api()
 
         except Exception as legacy_e:
             # Legacy API 抛出异常，尝试 Fallback
